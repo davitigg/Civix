@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3D", "Civil3D\Civil3D.csproj", "{898851AC-ABC2-40F9-8A8E-DA0EAC876DF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{519FDDE4-7CE5-4D7A-8084-C62989BE2447}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{898851AC-ABC2-40F9-8A8E-DA0EAC876DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{898851AC-ABC2-40F9-8A8E-DA0EAC876DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{898851AC-ABC2-40F9-8A8E-DA0EAC876DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{898851AC-ABC2-40F9-8A8E-DA0EAC876DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
