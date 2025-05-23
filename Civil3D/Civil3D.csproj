@@ -59,7 +59,25 @@
     <Compile Include="Commands\AccioSymbols.cs" />
     <Compile Include="Commands\ConnectoCogo.cs" />
     <Compile Include="Commands\PortaSeparo.cs" />
+    <Compile Include="Enums\Material.cs" />
+    <Compile Include="Enums\Status.cs" />
+    <Compile Include="Enums\Structure.cs" />
+    <Compile Include="Labels\Common\DiameterLabel.cs" />
+    <Compile Include="Labels\Common\Label.cs" />
+    <Compile Include="Labels\Common\LengthLabel.cs" />
+    <Compile Include="Labels\Common\MaterialTypeLabel.cs" />
+    <Compile Include="Labels\Common\StationLabel.cs" />
+    <Compile Include="Labels\Common\StationRangeLabel.cs" />
+    <Compile Include="Labels\Common\StatusLabel.cs" />
+    <Compile Include="Labels\Common\StructureTypeLabel.cs" />
+    <Compile Include="Labels\Common\WidthHeightLabel.cs" />
+    <Compile Include="Labels\Components\BenchmarkLabel.cs" />
+    <Compile Include="Labels\Components\StructureLabel.cs" />
+    <Compile Include="Labels\Interfaces\ILabel.cs" />
+    <Compile Include="Labels\Interfaces\ISectionLabel.cs" />
+    <Compile Include="Labels\Interfaces\IStationPositionLabel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Grammar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />
