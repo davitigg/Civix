@@ -9,7 +9,7 @@ using Autodesk.Civil.DatabaseServices;
 using System.Collections.Generic;
 using Entity = Autodesk.AutoCAD.DatabaseServices.Entity;
 
-namespace Civil3D
+namespace Civil3D.Commands
 {
     /// <summary>
     /// Inserts predefined block symbols at COGO point locations based on their RawDescription values.

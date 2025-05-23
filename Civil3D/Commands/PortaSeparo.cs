@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 
-namespace Civil3D
+namespace Civil3D.Commands
 {
     /// <summary>
     /// Splits a selected polyline segment to isolate a portion and creates a new segment labeled as a gate.

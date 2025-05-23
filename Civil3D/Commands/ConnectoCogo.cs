@@ -7,7 +7,7 @@ using Autodesk.Civil.DatabaseServices;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Civil3D
+namespace Civil3D.Commands
 {
     /// <summary>
     /// Connects selected COGO points into categorized 3D polylines based on their descriptions.
