@@ -15,6 +15,7 @@ Each command corresponds to its own class in the source code.
 | `AccioSymbols` | Inserts predefined block symbols at COGO point locations based on their `RawDescription` values. |
 | `ConnectoCogo` | Connects selected COGO points into categorized 3D polylines by description. |
 | `PortaSeparo`  | Splits a selected polyline segment and adds a gate segment on a specific layer. |
+| `AccioPipe`    | Connects COGO points in pairs to draw pipe polylines and optionally adds design or existing labels. |
 
 ---
 
