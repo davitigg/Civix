@@ -80,6 +80,7 @@
     <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="zip.bat" />
     <Content Include="lib\accoremgd.dll" />
     <Content Include="lib\acdbmgd.dll" />
     <Content Include="lib\acmgd.dll" />
