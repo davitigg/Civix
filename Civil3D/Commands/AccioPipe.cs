@@ -17,7 +17,8 @@ namespace Civil3D.Commands
     public class AccioPipe
     {
         private const string PipePointRawDescription = "10";
-        private const string PipeLayer = "_მილი";
+        private const string ExistingPipeLayer = "_მილი";
+        private const string DesignPipeLayer = "_საპ. მილი";
         private const string MLeaderStyle = "ისარი";
         private const string TextStyle = "Sylfaen";
 
@@ -47,24 +48,33 @@ namespace Civil3D.Commands
 
                     EdUtilities.PanTo(cogoPoints[i + 1].Location);
 
-                    var addExistingLabel = EdUtilities.PromptYesOrNo($"\nAdd existing pipe label to polyline?");
+                    var existingLabelAdded = false;
+                    var designLabelAdded = false;
+                    var addExistingLabel = EdUtilities.PromptYesOrNo(
+                        $"\nAdd existing pipe label to polyline ({cogoPoints[i].PointNumber}–{cogoPoints[i + 1].PointNumber})?");
                     if (addExistingLabel)
                     {
-                        HandlePipeLabel(
+                        existingLabelAdded = TryAddPipeLabel(
                             currentPolylineId,
                             Status.Existing,
                             $"{cogoPoints[i].PointNumber}-{cogoPoints[i + 1].PointNumber} — არსებული მილის მონაცემები",
                             40);
                     }
 
-                    var addDesignLabel = EdUtilities.PromptYesOrNo($"\nAdd design pipe label to polyline?");
+                    var addDesignLabel = EdUtilities.PromptYesOrNo(
+                        $"\nAdd design pipe label to polyline ({cogoPoints[i].PointNumber}–{cogoPoints[i + 1].PointNumber})?");
                     if (addDesignLabel)
                     {
-                        HandlePipeLabel(
+                        designLabelAdded = TryAddPipeLabel(
                             currentPolylineId,
-                            Status.Existing,
+                            Status.Design,
                             $"{cogoPoints[i].PointNumber}-{cogoPoints[i + 1].PointNumber} — საპროექტო მილის მონაცემები",
                             50);
+                    }
+
+                    if (!existingLabelAdded && designLabelAdded)
+                    {
+                        ChangePolylineLayerToDesign(currentPolylineId);
                     }
                 }
             }
@@ -127,7 +137,7 @@ namespace Civil3D.Commands
                 sb.Append($" {form.WidthMm}×{form.HeightMm}მმ");
 
             if (length > 0)
-                sb.Append($" ℓ={length:0.##}მ");
+                sb.Append($" ℓ={length:0.#}მ");
 
             sb.Append(" ()");
 
@@ -139,7 +149,7 @@ namespace Civil3D.Commands
 
         private ObjectId CreatePolyline(Point2d point1, Point2d point2)
         {
-            var polyline = new Polyline { Layer = PipeLayer };
+            var polyline = new Polyline { Layer = ExistingPipeLayer };
             polyline.AddVertexAt(0, point1, 0, 0, 0);
             polyline.AddVertexAt(1, point2, 0, 0, 0);
             var polylineId = DbUtilities.AddEntityToModelSpace(polyline);
@@ -147,7 +157,7 @@ namespace Civil3D.Commands
             return polylineId;
         }
 
-        private void AddPipeAnnotation(ObjectId polylineId, string annotation, int position)
+        private void AddPipeAnnotation(ObjectId polylineId, Status status, string annotation, int position)
         {
             var polyline = DbUtilities.GetObject<Polyline>(polylineId, OpenMode.ForRead);
 
@@ -159,7 +169,7 @@ namespace Civil3D.Commands
             mleader.AddLeaderLine(leaderIndex);
             mleader.AddFirstVertex(leaderIndex, firstVertex);
             mleader.AddLastVertex(leaderIndex, lastVertex);
-            mleader.Layer = PipeLayer;
+            mleader.Layer = status == Status.Design ? DesignPipeLayer : ExistingPipeLayer;
             mleader.ContentType = ContentType.MTextContent;
 
             var mldict = DbUtilities.GetObject<DBDictionary>(DbUtilities.Db.MLeaderStyleDictionaryId, OpenMode.ForRead);
@@ -190,17 +200,29 @@ namespace Civil3D.Commands
             DbUtilities.AddEntityToModelSpace(mleader);
         }
 
-        private void HandlePipeLabel(ObjectId polylineId, Status status, string title, int offset)
+        private bool TryAddPipeLabel(ObjectId polylineId, Status status, string title, int offset)
         {
             var form = new PipeAnnotationForm(title);
             Application.ShowModalDialog(form);
-            if (form.DialogResult != DialogResult.OK) return;
+            if (form.DialogResult != DialogResult.OK) return false;
 
             var polyline = DbUtilities.GetObject<Polyline>(polylineId, OpenMode.ForRead);
 
             var annotation = CreatePipeAnnotation(form, status, polyline.Length);
 
-            AddPipeAnnotation(polylineId, annotation, offset);
+            AddPipeAnnotation(polylineId, status, annotation, offset);
+
+            return true;
+        }
+
+        private void ChangePolylineLayerToDesign(ObjectId polylineId)
+        {
+            using (var transaction = DbUtilities.Db.TransactionManager.StartTransaction())
+            {
+                var polyline = DbUtilities.GetObject<Polyline>(polylineId, OpenMode.ForWrite, transaction);
+                polyline.Layer = DesignPipeLayer;
+                transaction.Commit();
+            }
         }
     }
 }
