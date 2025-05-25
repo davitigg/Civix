@@ -5,8 +5,8 @@ REM === This script requires 7-Zip CLI (7z.exe) to be installed and in your PATH
 
 set "SOURCE=bin/Debug/Civil3D.dll"
 set "PASSWORD=123"
-set "ZIP1=Civil3D.zip"
-set "ZIP2=Civix.zip"
+set "ARCH1=Civil3D.7z"
+set "ARCH2=Civix.7z"
 
 for %%F in ("%SOURCE%") do (
     set "SOURCE_DIR=%%~dpF"
@@ -18,28 +18,28 @@ if not exist "%SOURCE%" (
     exit /b 1
 )
 
-if exist "%ZIP1%" del "%ZIP1%"
-if exist "%ZIP2%" del "%ZIP2%"
+if exist "%ARCH1%" del "%ARCH1%"
+if exist "%ARCH2%" del "%ARCH2%"
 
 pushd "%SOURCE_DIR%"
-7z a -tzip "%~dp0%ZIP1%" "%SOURCE_FILE%" -p%PASSWORD% -mem=AES256 -mx=9 -bso0 -bsp0
+7z a "%~dp0%ARCH1%" "%SOURCE_FILE%" -p%PASSWORD% -bso0 -bsp0
 popd
 
 if errorlevel 1 (
-    echo Error: Failed to create %ZIP1%.
+    echo Error: Failed to create %ARCH1%.
     exit /b 1
 )
 
-7z a -tzip "%ZIP2%" "%ZIP1%" -p%PASSWORD% -mem=AES256 -mx=9 -bso0 -bsp0
+7z a "%ARCH2%" "%ARCH1%" -p%PASSWORD% -bso0 -bsp0
 
 if errorlevel 1 (
-    echo Error: Failed to create %ZIP2%.
-    if exist "%ZIP1%" del "%ZIP1%"
+    echo Error: Failed to create %ARCH2%.
+    if exist "%ARCH1%" del "%ARCH1%"
     exit /b 1
 )
 
-del "%ZIP1%"
+del "%ARCH1%"
 
-echo Archive created: %ZIP2%
+echo Archive created: %ARCH2%
 
 endlocal
