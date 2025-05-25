@@ -121,7 +121,7 @@ namespace Civil3D.Forms
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 20);
             this.label3.TabIndex = 5;
-            this.label3.Text = "შეივანეთ დიამეტრი:";
+            this.label3.Text = "შეიყვანეთ დიამეტრი:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // textBox1
