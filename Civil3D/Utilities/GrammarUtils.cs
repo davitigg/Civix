@@ -1,6 +1,6 @@
 ﻿namespace Civil3D.Utilities
 {
-    public static class Grammar
+    public static class GrammarUtils
     {
         public static string ToGenitive(this string word)
         {
