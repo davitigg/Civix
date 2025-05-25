@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
@@ -137,7 +138,7 @@ namespace Civil3D.Commands
                 sb.Append($" {form.WidthMm}×{form.HeightMm}მმ");
 
             if (length > 0)
-                sb.Append($" ℓ={length:0.#}მ");
+                sb.Append($" ℓ={length.RoundToNearest(0.5):0.0}მ");
 
             sb.Append(" ()");
 
@@ -169,6 +170,7 @@ namespace Civil3D.Commands
             mleader.AddLeaderLine(leaderIndex);
             mleader.AddFirstVertex(leaderIndex, firstVertex);
             mleader.AddLastVertex(leaderIndex, lastVertex);
+            mleader.Linetype = "ByBlock";
             mleader.Layer = status == Status.Design ? DesignPipeLayer : ExistingPipeLayer;
             mleader.ContentType = ContentType.MTextContent;
 
@@ -183,6 +185,7 @@ namespace Civil3D.Commands
             {
                 Contents = annotation,
                 Location = lastVertex,
+                Color = Color.FromColorIndex(ColorMethod.ByLayer, 256),
                 TextHeight = 2.5,
                 Width = 50
             };
